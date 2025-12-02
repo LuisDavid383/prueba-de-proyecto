@@ -120,12 +120,34 @@ namespace CapaPresentacion
 
         private void BtnAceptarTorneo_Click(object sender, RoutedEventArgs e)
         {
+            if (dgInvitacionesTorneo.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccione una invitación.");
+                return;
+            }
 
+            DataRowView fila = (DataRowView)dgInvitacionesTorneo.SelectedItem;
+            int idParticipacion = (int)fila["IDParticipacion"];
+
+            ObjTorneo.AceptarInvitacion(idParticipacion);
+            MessageBox.Show("Participación aceptada.");
+            CargarInvitacionesTorneo();
         }
 
         private void BtnRechazarTorneo_Click(object sender, RoutedEventArgs e)
         {
+            if (dgInvitacionesTorneo.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccione una invitación.");
+                return;
+            }
 
+            DataRowView fila = (DataRowView)dgInvitacionesTorneo.SelectedItem;
+            int idParticipacion = (int)fila["IDParticipacion"];
+
+            ObjTorneo.RechazarInvitacion(idParticipacion);
+            MessageBox.Show("Participación rechazada.");
+            CargarInvitacionesTorneo();
         }
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)

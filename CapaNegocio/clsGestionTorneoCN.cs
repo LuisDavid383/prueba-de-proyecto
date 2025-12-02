@@ -48,6 +48,24 @@ namespace CapaNegocio
             return ObjTorneo.ListarInvitaciones(idUsuario);
         }
 
+        public void AceptarInvitacion(int idParticipacion)
+        {
+            ObjTorneo.AceptarInvitacion(idParticipacion);
+        }
 
+        public void RechazarInvitacion(int idParticipacion)
+        {
+            ObjTorneo.RechazarInvitacion(idParticipacion);
+        }
+
+        public DataTable ObtenerEquiposAceptados(int idTorneo)
+        {
+            return ObjTorneo.ListarEquiposAceptados(idTorneo);
+        }
+
+        public bool RegistrarEnfrentamiento(int idTorneo, int idLocal, int idVisitante, DateTime fecha)
+        {
+            return ObjTorneo.CrearEnfrentamiento(idTorneo, idLocal, idVisitante, fecha);
+        }
     }
 }

@@ -87,7 +87,17 @@ namespace CapaPresentacion
 
         private void VerFases_Click(object sender, RoutedEventArgs e)
         {
+            if (dgTorneos.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccione un torneo.");
+                return;
+            }
 
+            DataRowView fila = dgTorneos.SelectedItem as DataRowView;
+            int idTorneo = Convert.ToInt32(fila["IDTorneos"]);
+            string nombreTorneo = fila["Nombre"].ToString();
+            wpfVerPartidos ventana = new wpfVerPartidos(idTorneo, nombreTorneo);
+            ventana.ShowDialog();
         }
 
         private void EliminarLogico_Click(object sender, RoutedEventArgs e)

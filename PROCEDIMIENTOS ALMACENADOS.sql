@@ -547,3 +547,86 @@ BEGIN
     ORDER BY p.FechaInvitacion DESC;
 END
 GO
+
+
+-----------------------------------------------------
+-- ACEPTAR INVITAR EQUIPOS AL TORNEO
+-----------------------------------------------------
+CREATE PROCEDURE spAceptarInvitacionEquipo
+(
+    @IDParticipacion INT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE tbParticipacionTorneo
+    SET EstadoParticipacion = 'ACEPTADA',
+        FechaRespuesta = GETDATE()
+    WHERE IDParticipacion = @IDParticipacion;
+END
+GO
+
+
+
+-----------------------------------------------------
+-- RECHAZAR INVITAR EQUIPOS AL TORNEO
+-----------------------------------------------------
+CREATE PROCEDURE spRechazarInvitacionEquipo
+(
+    @IDParticipacion INT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    UPDATE tbParticipacionTorneo
+    SET EstadoParticipacion = 'RECHAZADA',
+        FechaRespuesta = GETDATE()
+    WHERE IDParticipacion = @IDParticipacion;
+END
+GO
+
+
+-----------------------------------------------------
+-- LISTAR EQUIPOS AL TORNEO
+-----------------------------------------------------
+CREATE PROCEDURE spListarEquiposAceptados
+(
+    @IDTorneo INT
+)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        P.IDParticipacion,
+        E.IDEquipo,
+        E.Nombre AS NombreEquipo,
+        P.EstadoParticipacion,
+        P.FechaRespuesta
+    FROM tbParticipacionTorneo P
+    INNER JOIN tbEquipo E ON E.IDEquipo = P.IDEquipo
+    WHERE P.IDTorneo = @IDTorneo
+      AND P.EstadoParticipacion = 'ACEPTADA'
+    ORDER BY E.Nombre;
+END
+GO
+
+
+-----------------------------------------------------
+-- CREAR ENFRENTAMIENTO
+-----------------------------------------------------
+CREATE PROCEDURE spCrearEnfrentamiento
+(
+    @IDTorneo INT,
+    @IDEquipoLocal INT,
+    @IDEquipoVisitante INT,
+    @FechaPartido DATETIME
+)
+AS
+BEGIN
+    INSERT INTO tbEnfrentamientos (IDTorneo, IDEquipoLocal, IDEquipoVisitante, FechaPartido)
+    VALUES (@IDTorneo, @IDEquipoLocal, @IDEquipoVisitante, @FechaPartido);
+END
+GO

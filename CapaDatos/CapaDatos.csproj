@@ -45,6 +45,7 @@
     <Compile Include="clsGestionEquipoCD.cs" />
     <Compile Include="clsGestionTorneoCD.cs" />
     <Compile Include="clsLoginCD.cs" />
+    <Compile Include="Enfrentamiento.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

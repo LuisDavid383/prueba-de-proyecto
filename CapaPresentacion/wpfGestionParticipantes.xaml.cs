@@ -1,6 +1,7 @@
 ﻿using CapaNegocio;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Text;
 using System.Windows;
@@ -20,7 +21,9 @@ namespace CapaPresentacion
     public partial class wpfGestionParticipantes : Window
     {
         clsGestionTorneoCN ObjTorneo = new clsGestionTorneoCN();
-        
+
+        private ObservableCollection<enfrentamiento> listaEnfrentamientos = new ObservableCollection<enfrentamiento>();
+
         public int IDTorneo { get; set; }
         public string NombreTorneo { get; set; }
 
@@ -28,16 +31,31 @@ namespace CapaPresentacion
         {
             InitializeComponent();
 
+            dgEnfrentamientos.ItemsSource = listaEnfrentamientos;
+
             IDTorneo = idTorneo;
             NombreTorneo = nombreTorneo;
 
             // Mostrar en el título
             txtTituloTorneo.Text = $"GESTIÓN DEL TORNEO: {NombreTorneo}";
-
-            // Cargar equipos participantes del torneo
-            //CargarParticipantes();
-            //CargarCombosEquipos();
+            CargarCombosEquipos();
         }
+
+        private void CargarCombosEquipos()
+        {
+            DataTable dtEquipos = ObjTorneo.ObtenerEquiposAceptados(IDTorneo);
+
+            cmbLocal.ItemsSource = dtEquipos.DefaultView;
+            cmbLocal.DisplayMemberPath = "NombreEquipo";
+            cmbLocal.SelectedValuePath = "IDEquipo";
+
+            cmbVisitante.ItemsSource = dtEquipos.DefaultView;
+            cmbVisitante.DisplayMemberPath = "NombreEquipo";
+            cmbVisitante.SelectedValuePath = "IDEquipo";
+        }
+
+
+
 
         private void BtnBuscarEquipo_Click(object sender, RoutedEventArgs e)
         {
@@ -91,13 +109,96 @@ namespace CapaPresentacion
 
         private void BtnConfirmarCalendario_Click(object sender, RoutedEventArgs e)
         {
+            if (dgEnfrentamientos.Items.Count == 0)
+            {
+                MessageBox.Show("No hay enfrentamientos para guardar.");
+                return;
+            }
 
+            int idTorneo = IDTorneo;
+            bool todoOK = true;
+
+            foreach (var item in dgEnfrentamientos.Items)
+            {
+                enfrentamiento enf = item as enfrentamiento;
+                if (enf == null) continue;
+
+                bool resultado = ObjTorneo.RegistrarEnfrentamiento(
+                    idTorneo,
+                    enf.IDLocal,
+                    enf.IDVisitante,
+                    enf.FechaPartido
+                );
+
+                if (!resultado)
+                    todoOK = false;
+            }
+
+            if (todoOK)
+            {
+                MessageBox.Show("Enfrentamientos guardados correctamente.");
+                listaEnfrentamientos.Clear();
+                dgEnfrentamientos.ItemsSource = null;
+            }
+            else
+            {
+                MessageBox.Show("Algunos enfrentamientos no se pudieron guardar.");
+            }
         }
+
 
         private void BtnAgregarPartidoManual_Click(object sender, RoutedEventArgs e)
         {
+            // Validaciones
+            if (cmbLocal.SelectedValue == null || cmbVisitante.SelectedValue == null)
+            {
+                MessageBox.Show("Seleccione ambos equipos.");
+                return;
+            }
 
+            if (cmbLocal.SelectedValue.ToString() == cmbVisitante.SelectedValue.ToString())
+            {
+                MessageBox.Show("Un equipo no puede jugar contra sí mismo.");
+                return;
+            }
+
+            if (!dpFechaPartido.SelectedDate.HasValue)
+            {
+                MessageBox.Show("Seleccione una fecha.");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtHoraPartido.Text))
+            {
+                MessageBox.Show("Ingrese una hora válida.");
+                return;
+            }
+
+            DateTime fechaHora = dpFechaPartido.SelectedDate.Value
+                .Add(TimeSpan.Parse(txtHoraPartido.Text));
+
+            // Crear enfrentamiento
+            var enfrentamiento = new enfrentamiento()
+            {
+                IDEnfrentamiento = listaEnfrentamientos.Count + 1,
+                IDLocal = (int)cmbLocal.SelectedValue,
+                IDVisitante = (int)cmbVisitante.SelectedValue,
+
+                LocalNombre = cmbLocal.Text,
+                VisitanteNombre = cmbVisitante.Text,
+
+                FechaPartido = fechaHora,
+                Sede = "Por definir",
+                EstadoPartido = "Pendiente"
+            };
+
+
+            // AGREGAR A LA LISTA (NO ROWS.ADD)
+            listaEnfrentamientos.Add(enfrentamiento);
+
+            MessageBox.Show("Partido agregado a la tabla.");
         }
+
 
         private void BtnEliminarEnfrentamiento_Click(object sender, RoutedEventArgs e)
         {

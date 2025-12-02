@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsEnfrentamientosCN.cs" />
     <Compile Include="clsGestionEquiposCN.cs" />
     <Compile Include="clsGestionTorneoCN.cs" />
     <Compile Include="clsLoginCN.cs" />

@@ -34,7 +34,7 @@
                         Click="GestionarParticipantes_Click"
                         Margin="10,0" Padding="12,7" FontWeight="SemiBold"
                         Background="#FF9C27B0" Foreground="White" BorderBrush="#FF9C27B0"/>
-                <Button Content="🗓️ Ver Partidos/Fases" 
+                <Button Content="🗓️ Ver Partidos" 
                         x:Name="btnVerFases"
                         Click="VerFases_Click"
                         Padding="12,7" FontWeight="SemiBold"

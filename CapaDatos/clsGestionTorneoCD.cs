@@ -159,6 +159,108 @@ namespace CapaDatos
             return dt;
         }
 
+        public void AceptarInvitacion(int idParticipacion)
+        {
+            using (SqlConnection conn = clsConexion.mtdObtenerConexion())
+            {
+                SqlCommand cmd = new SqlCommand("spAceptarInvitacionEquipo", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@IDParticipacion", idParticipacion);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void RechazarInvitacion(int idParticipacion)
+        {
+            using (SqlConnection conn = clsConexion.mtdObtenerConexion())
+            {
+                SqlCommand cmd = new SqlCommand("spRechazarInvitacionEquipo", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@IDParticipacion", idParticipacion);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public DataTable ListarEquiposAceptados(int idTorneo)
+        {
+            using (SqlConnection conn = clsConexion.mtdObtenerConexion())
+            {
+                SqlCommand cmd = new SqlCommand("spListarEquiposAceptados", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@IDTorneo", idTorneo);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+        }
+
+        public bool CrearEnfrentamiento(int idTorneo, int idLocal, int idVisitante, DateTime fecha)
+        {
+            using (SqlConnection conn = clsConexion.mtdObtenerConexion())
+            {
+                SqlCommand cmd = new SqlCommand("spCrearEnfrentamiento", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@IDTorneo", idTorneo);
+                cmd.Parameters.AddWithValue("@IDEquipoLocal", idLocal);
+                cmd.Parameters.AddWithValue("@IDEquipoVisitante", idVisitante);
+                cmd.Parameters.AddWithValue("@FechaPartido", fecha);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                return true;
+            }
+        }
+
+        public List<Enfrentamiento> ListarPorTorneo(int idTorneo)
+        {
+            List<Enfrentamiento> lista = new List<Enfrentamiento>();
+
+            using (SqlConnection con = clsConexion.mtdObtenerConexion())
+            {
+                string query = @"
+        SELECT e.IDEnfrentamiento,
+               e.FechaPartido,
+               e.EstadoPartido,
+
+               el.Nombre AS LocalNombre,
+               ev.Nombre AS VisitanteNombre
+
+        FROM tbEnfrentamientos e
+        INNER JOIN tbEquipo el ON el.IDEquipo = e.IDEquipoLocal
+        INNER JOIN tbEquipo ev ON ev.IDEquipo = e.IDEquipoVisitante
+        WHERE e.IDTorneo = @idTorneo
+        ORDER BY FechaPartido";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@idTorneo", idTorneo);
+
+                con.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        lista.Add(new Enfrentamiento
+                        {
+                            IDEnfrentamiento = Convert.ToInt32(dr["IDEnfrentamiento"]),
+                            LocalNombre = dr["LocalNombre"].ToString(),
+                            VisitanteNombre = dr["VisitanteNombre"].ToString(),
+                            FechaPartido = Convert.ToDateTime(dr["FechaPartido"]),
+                            EstadoPartido = dr["EstadoPartido"].ToString()
+                        });
+                    }
+                }
+            }
+
+            return lista;
+        }
 
     }
 }
