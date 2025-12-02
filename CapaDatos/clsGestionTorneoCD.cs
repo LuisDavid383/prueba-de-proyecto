@@ -110,6 +110,55 @@ namespace CapaDatos
             return dt;
         }
 
+        public string InvitarEquipoATorneo(int idTorneo, int idEquipo, int idUsuarioEmisor)
+        {
+            try
+            {
+                using (SqlConnection conn = clsConexion.mtdObtenerConexion())
+                {
+                    SqlCommand cmd = new SqlCommand("spInvitarEquipoATorneo", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@IDTorneo", idTorneo);
+                    cmd.Parameters.AddWithValue("@IDEquipo", idEquipo);
+                    cmd.Parameters.AddWithValue("@IDUsuarioEmisor", idUsuarioEmisor);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+        public DataTable ListarInvitaciones(int idUsuario)
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                using (SqlConnection conn = clsConexion.mtdObtenerConexion())
+                {
+                    SqlCommand cmd = new SqlCommand("spListarInvitacionesDeEquipos", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@IDUsuario", idUsuario);
+
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar invitaciones: " + ex.Message);
+            }
+
+            return dt;
+        }
+
 
     }
 }

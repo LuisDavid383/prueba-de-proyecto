@@ -22,18 +22,29 @@ namespace CapaPresentacion
     {
         private int _idUsuario;
         clsGestionEquiposCN ObjEquipo = new clsGestionEquiposCN();
+        clsGestionTorneoCN ObjTorneo = new clsGestionTorneoCN();
 
         public usInvitaciones(int idUsuario)
         {
             InitializeComponent();
             _idUsuario = idUsuario;
             CargarInvitacionesEquipos();
+            CargarInvitacionesTorneo();
         }
 
         private void CargarInvitacionesEquipos()
         {
             dgInvitacionesEquipo.ItemsSource = ObjEquipo.mtdListarInvitacionesCN(_idUsuario).DefaultView;
         }
+
+        private void CargarInvitacionesTorneo()
+        {
+            int idUsuarioActual = clsDatosUsuario.IDUsuario; // el que inició sesión
+
+            DataTable dt = ObjTorneo.ObtenerInvitaciones(idUsuarioActual);
+            dgInvitacionesTorneo.ItemsSource = dt.DefaultView;
+        }
+
 
         private void BtnAceptarEquipo_Click(object sender, RoutedEventArgs e)
         {

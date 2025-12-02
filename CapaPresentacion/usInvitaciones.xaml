@@ -67,10 +67,10 @@
                               AlternatingRowBackground="#FFE3F2FD">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="ID Participación" Binding="{Binding IDParticipacion}" Width="Auto"/>
-                            <DataGridTextColumn Header="Torneo" Binding="{Binding NombreTorneo}" Width="2*"/>
-                            <DataGridTextColumn Header="Equipo" Binding="{Binding NombreEquipo}" Width="1.5*"/>
-                            <DataGridTextColumn Header="Invita (Usuario)" Binding="{Binding UsuarioEmisor}" Width="1.5*"/>
-                            <DataGridTextColumn Header="Enviada el" Binding="{Binding FechaInvitacion, StringFormat='dd/MM/yyyy HH:mm'}" Width="1.5*"/>
+                            <DataGridTextColumn Header="Torneo" Binding="{Binding Torneo}" Width="2*"/>
+                            <DataGridTextColumn Header="Equipo" Binding="{Binding Equipo}" Width="1.5*"/>
+                            <DataGridTextColumn Header="Invita (Usuario)" Binding="{Binding InvitaUsuario}" Width="1.5*"/>
+                            <DataGridTextColumn Header="Enviada el" Binding="{Binding EnviadaEl, StringFormat='dd/MM/yyyy HH:mm'}" Width="1.5*"/>
                             <DataGridTextColumn Header="Estado" Binding="{Binding EstadoParticipacion}" Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>

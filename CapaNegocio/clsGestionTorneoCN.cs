@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +36,16 @@ namespace CapaNegocio
         public DataTable mtdBuscarEquipoPorNombreCN(string nombre)
         {
             return ObjTorneo.mtdBuscarEquipoPorNombreCD(nombre);
+        }
+
+        public string InvitarEquipo(int idTorneo, int idEquipo, int idUsuarioEmisor)
+        {
+            return ObjTorneo.InvitarEquipoATorneo(idTorneo, idEquipo, idUsuarioEmisor);
+        }
+
+        public DataTable ObtenerInvitaciones(int idUsuario)
+        {
+            return ObjTorneo.ListarInvitaciones(idUsuario);
         }
 
 

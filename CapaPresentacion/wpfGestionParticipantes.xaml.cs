@@ -58,8 +58,26 @@ namespace CapaPresentacion
 
         private void BtnInvitarEquipo_Click(object sender, RoutedEventArgs e)
         {
+            if (dgParticipantes.SelectedItem == null)
+            {
+                MessageBox.Show("Seleccione un equipo.");
+                return;
+            }
 
+            DataRowView fila = (DataRowView)dgParticipantes.SelectedItem;
+
+            int idEquipo = (int)fila["IDEquipo"];
+            int idTorneo = IDTorneo;
+            int idUsuarioEmisor = clsDatosUsuario.IDUsuario;
+
+            string respuesta = ObjTorneo.InvitarEquipo(idTorneo, idEquipo, idUsuarioEmisor);
+
+            if (respuesta == "OK")
+                MessageBox.Show("Invitación enviada correctamente.");
+            else
+                MessageBox.Show("Error: " + respuesta);
         }
+
 
         private void BtnRetirarEquipo_Click(object sender, RoutedEventArgs e)
         {
