@@ -1,0 +1,59 @@
+﻿<Window x:Class="CapaPresentacion.wpf_Inicio_Sesion"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CapaPresentacion"
+        mc:Ignorable="d"
+        Title="wpf_Inicio_Sesion" Height="300" Width="400">
+    <Grid  Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="INICIO DE SESIÓN" 
+            Grid.Row="0" Grid.ColumnSpan="2" 
+            HorizontalAlignment="Center" 
+            FontSize="18" FontWeight="Bold" Margin="0,0,0,15"/>
+
+        <TextBlock Text="Usuario:" 
+            Grid.Row="1" Grid.Column="0" 
+            VerticalAlignment="Center" Margin="0,5"/>
+        <TextBox x:Name="txtUsuario" 
+            Grid.Row="1" Grid.Column="1" 
+            Margin="5,5,0,5" Padding="3" />
+
+        <TextBlock Text="Contraseña:" 
+            Grid.Row="2" Grid.Column="0" 
+            VerticalAlignment="Center" Margin="0,5"/>
+        <PasswordBox x:Name="pwdContrasena" 
+            Grid.Row="2" Grid.Column="1" 
+            Margin="5,5,0,5" Padding="3" />
+
+        <Button Content="INGRESAR" 
+            Grid.Row="3" Grid.ColumnSpan="2" 
+            Margin="0,20,0,10" Padding="10" 
+            Click="Ingresar_Click"
+            Background="#FF4CAF50" Foreground="White" 
+            FontWeight="Bold"/>
+
+        <StackPanel Orientation="Horizontal" 
+                HorizontalAlignment="Center" 
+                Grid.Row="4" Grid.ColumnSpan="2">
+            <TextBlock>
+                <Hyperlink Click="CrearCuenta_Click">
+                    ¿No tienes cuenta? **Crear Cuenta**
+                </Hyperlink>    
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</Window>

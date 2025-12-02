@@ -1,0 +1,158 @@
+﻿<Window x:Class="CapaPresentacion.wpfGestionParticipantes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CapaPresentacion"
+        mc:Ignorable="d"
+        Title="wpfGestionParticipantes" Height="659" Width="1233">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- TÍTULO DINÁMICO -->
+        <TextBlock x:Name="txtTituloTorneo" Grid.Row="0" Text="GESTIÓN DEL TORNEO: [Nombre del Torneo]" 
+                   FontSize="24" FontWeight="Bold" 
+                   HorizontalAlignment="Left" Margin="0,0,0,20"
+                   Foreground="#FF9C27B0"/>
+
+        <!-- CONTROL DE PESTAÑAS -->
+        <TabControl Grid.Row="1" Background="#FFF5F5F5" BorderBrush="#FFCCCCCC">
+
+            <!-- PESTAÑA 1: GESTIÓN DE PARTICIPANTES (Invitación y Lista) -->
+            <TabItem Header="👥 Equipos Participantes" FontWeight="SemiBold" FontSize="14">
+                <Grid Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Panel de Invitación y Filtro -->
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,15">
+                        <TextBlock Text="Invitar Equipo (Buscar por Nombre):" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                        <TextBox x:Name="txtBuscarEquipo" Width="200" Margin="0,0,15,0" Padding="5"/>
+                        <Button Content="🔍 Buscar" Click="BtnBuscarEquipo_Click" Padding="10,5" Background="#FF03A9F4" Foreground="White" FontWeight="SemiBold"/>
+                        <Button Content="✉️ Invitar Seleccionado" Click="BtnInvitarEquipo_Click" Margin="15,0,0,0" Padding="10,5" Background="#FF4CAF50" Foreground="White" FontWeight="Bold"/>
+                    </StackPanel>
+
+                    <!-- DataGrid de Participantes (Equipos ya en el torneo) -->
+                    <DataGrid x:Name="dgParticipantes" Grid.Row="1" AutoGenerateColumns="False" 
+                              IsReadOnly="True" SelectionMode="Single"
+                              AlternatingRowBackground="#FFE3F2FD">
+                        <DataGrid.Columns>
+                            <!-- ANCHO AJUSTADO: Usando tamaño fijo para IDs y proporcional para nombres -->
+                            <DataGridTextColumn Header="ID Equipo" Binding="{Binding IDEquipo}" Width="80"/>
+                            <DataGridTextColumn Header="Nombre Equipo" Binding="{Binding NombreEquipo}" Width="2*"/>
+                            <DataGridTextColumn Header="Capitán" Binding="{Binding NombreCapitan}" Width="1.5*"/>
+                            <DataGridTextColumn Header="Deporte" Binding="{Binding Deporte}" Width="1.5*"/>
+                            <DataGridTextColumn Header="Estado" Binding="{Binding EstadoParticipacion}" Width="*"/>
+
+                            <!-- ANCHO AJUSTADO: Usando tamaño fijo para el botón de acción -->
+                            <DataGridTemplateColumn Header="Acción" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Retirar" 
+                                                Click="BtnRetirarEquipo_Click"
+                                                Background="#FFFF9800" Foreground="White" FontWeight="SemiBold"
+                                                Margin="5"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+
+            <!-- PESTAÑA 2: GENERACIÓN DE ENFRENTAMIENTOS (Fases) -->
+            <TabItem Header="⚔️ Programar Enfrentamientos" FontWeight="SemiBold" FontSize="14">
+                <Grid Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- CONTROLES DE GENERACIÓN (Manual y Automático) -->
+                    <StackPanel Grid.Row="0" Margin="0,0,0,20">
+
+                        <!-- SECCIÓN 1: Agregar Partido Manualmente -->
+                        <TextBlock Text="1. Agregar Partido Manualmente" FontSize="18" FontWeight="Bold" Margin="0,0,0,10" Foreground="#FF9C27B0"/>
+
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="20"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0" Text="Local: *" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <ComboBox x:Name="cmbLocal" Grid.Column="1" Padding="5" DisplayMemberPath="NombreEquipo"/>
+
+                            <TextBlock Grid.Column="3" Text="Visitante: *" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <ComboBox x:Name="cmbVisitante" Grid.Column="3" Padding="5" DisplayMemberPath="NombreEquipo" Grid.ColumnSpan="2" Margin="74,0,5,0"/>
+
+                            <TextBlock Grid.Column="5" Text="Fecha:" VerticalAlignment="Center" Margin="5,0,25,0" Grid.ColumnSpan="2"/>
+                            <DatePicker x:Name="dpFechaPartido" Grid.Column="5" Padding="5" Grid.ColumnSpan="3" Margin="50,0,20,0"/>
+
+                            <TextBlock Grid.Column="9" Text="Hora" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                            <TextBox x:Name="txtHoraPartido" Grid.Column="10" Padding="5" Text="18:00"/>
+
+                            <Button Grid.Column="11" Content="➕ Agregar Partido" 
+                                Click="BtnAgregarPartidoManual_Click"
+                                Padding="10,8" Background="#FF009688" Foreground="White" FontWeight="Bold" Grid.ColumnSpan="2" Height="37" Margin="20,0,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+
+                        <!-- SECCIÓN 2: Generación Automática -->
+                    </StackPanel>
+
+                    <!-- DataGrid para mostrar la Previsualización de Partidos -->
+                    <DataGrid x:Name="dgEnfrentamientos" Grid.Row="1" AutoGenerateColumns="False" 
+                              IsReadOnly="True" SelectionMode="Single"
+                              AlternatingRowBackground="#FFF3E5F5">
+                        <DataGrid.Columns>
+                            <!-- ANCHO AJUSTADO: Usando tamaño fijo para IDs y proporcional para nombres -->
+                            <DataGridTextColumn Header="ID Enfrentamiento" Binding="{Binding IDEnfrentamiento}" Width="120"/>
+                            <DataGridTextColumn Header="Equipo Local" Binding="{Binding LocalNombre}" Width="2*"/>
+                            <DataGridTextColumn Header="Equipo Visitante" Binding="{Binding VisitanteNombre}" Width="2*"/>
+                            <DataGridTextColumn Header="Fecha/Hora" Binding="{Binding FechaPartido, StringFormat='dd/MM/yyyy HH:mm'}" Width="1.5*"/>
+                            <DataGridTextColumn Header="Sede Sugerida" Binding="{Binding Sede}" Width="*"/>
+                            <DataGridTextColumn Header="Estado" Binding="{Binding EstadoPartido}" Width="*"/>
+
+                            <!-- ANCHO AJUSTADO: Usando tamaño fijo para el botón de acción -->
+                            <DataGridTemplateColumn Header="Acción" Width="100">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="🗑️ Eliminar" 
+                                                Click="BtnEliminarEnfrentamiento_Click"
+                                                Background="#FFE57373" Foreground="White" FontWeight="SemiBold"
+                                                Margin="5"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <!-- Botón de Confirmación de Calendario -->
+                    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                        <Button Content="✅ Confirmar y Publicar Calendario" 
+                                Click="BtnConfirmarCalendario_Click"
+                                Padding="15,10" Background="#FF4CAF50" Foreground="White" FontWeight="Bold"/>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

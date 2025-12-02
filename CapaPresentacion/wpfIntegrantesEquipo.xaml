@@ -1,0 +1,54 @@
+﻿<Window x:Class="CapaPresentacion.wpfIntegrantesEquipo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CapaPresentacion"
+        mc:Ignorable="d"
+        Title="wpfIntegrantesEquipo" Height="500" Width="700"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanResize">
+    <Grid Margin="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="INTEGRANTES DEL EQUIPO" 
+                   FontSize="24" FontWeight="Bold" 
+                   HorizontalAlignment="Center" Margin="0,0,0,15"
+                   Foreground="#FF009688"/>
+
+        <Border Grid.Row="1" BorderBrush="#FFCCCCCC" BorderThickness="1" 
+                Padding="10" Margin="0,0,0,20" Background="#FFF0F0F0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Equipo:" FontWeight="SemiBold" Margin="0,0,5,0"/>
+                <TextBlock x:Name="txtNombreEquipo" Text="[Nombre del Equipo]" FontWeight="Bold" Foreground="#FF1E88E5"/>
+            </StackPanel>
+        </Border>
+
+        <DataGrid x:Name="dgIntegrantes" Grid.Row="2" AutoGenerateColumns="False" 
+                  IsReadOnly="True" HeadersVisibility="Column" 
+                  SelectionMode="Single"
+                  Background="#FFFFFFFF" AlternatingRowBackground="#FFF5F5F5"
+                  BorderBrush="#FFCCCCCC" BorderThickness="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID Usuario" Binding="{Binding IDUsuario}" Width="Auto"/>
+                <DataGridTextColumn Header="Nombre de Usuario" Binding="{Binding NombreUsuario}" Width="*"/>
+                <DataGridTextColumn Header="Rol en el Equipo" Binding="{Binding Rol}" Width="1.5*"/>
+                <DataGridTextColumn Header="Fecha de Unión" Binding="{Binding FechaUnion, StringFormat='dd/MM/yyyy'}" Width="1.5*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="✅ Cerrar" 
+                    x:Name="btnCerrar"
+                    Click="BtnCerrar_Click"
+                    Padding="15,10" 
+                    Background="#FFCCCCCC" Foreground="Black"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

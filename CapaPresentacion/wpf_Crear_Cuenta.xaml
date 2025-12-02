@@ -1,0 +1,124 @@
+﻿<Window x:Class="CapaPresentacion.wpf_Crear_Cuenta"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CapaPresentacion"
+        mc:Ignorable="d"
+        Title="wpf_Crear_Cuenta" Height="362" Width="800">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="25">
+
+            <TextBlock Text="REGISTRO DE NUEVO USUARIO" 
+                   HorizontalAlignment="Center" 
+                   FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
+
+            <TextBlock Text="DATOS PERSONALES" FontWeight="SemiBold" Margin="0,10,0,5"/>
+            <Separator Margin="0,-2,0,10"/>
+
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                    <TextBlock Text="Nombres:"/>
+                    <TextBox x:Name="txtNombres" Padding="5"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Apellido Paterno:"/>
+                    <TextBox x:Name="txtApellidoPaterno" Padding="5"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                    <TextBlock Text="Apellido Materno:"/>
+                    <TextBox x:Name="txtApellidoMaterno" Padding="5"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Tipo Documento:"/>
+                    <ComboBox x:Name="cmbTipoDocumento" SelectedIndex="0" Padding="5">
+                    </ComboBox>
+                </StackPanel>
+            </Grid>
+
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                    <TextBlock Text="N° Documento:"/>
+                    <TextBox x:Name="txtDocumento" Padding="5" MaxLength="15"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Fecha Nacimiento:"/>
+                    <DatePicker x:Name="dpFechaNacimiento" Padding="5"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                    <TextBlock Text="Género:"/>
+                    <ComboBox x:Name="cmbGenero" SelectedIndex="0" Padding="5">
+                        <ComboBoxItem Content="Masculino (M)"/>
+                        <ComboBoxItem Content="Femenino (F)"/>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Margin="0,0,10,0">
+                    <TextBlock Text="Teléfono (Opcional):"/>
+                    <TextBox x:Name="txtTelefono" Padding="5" MaxLength="9"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock Text="Correo Electrónico:"/>
+                    <TextBox x:Name="txtCorreo" Padding="5"/>
+                </StackPanel>
+            </Grid>
+
+            <TextBlock Text="DATOS DE USUARIO" FontWeight="SemiBold" Margin="0,20,0,5"/>
+            <Separator Margin="0,-2,0,10"/>
+
+            <StackPanel Margin="0,5">
+                <TextBlock Text="Nombre de Usuario:"/>
+                <TextBox x:Name="txtNombreUsuario" Padding="5" MaxLength="50"/>
+            </StackPanel>
+
+            <Grid Margin="0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                    <TextBlock Text="Contraseña:"/>
+                    <PasswordBox x:Name="pwdContrasena" Padding="5"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Text="Confirmar Contraseña:"/>
+                    <PasswordBox x:Name="pwdConfirmarContrasena" Padding="5"/>
+                </StackPanel>
+            </Grid>
+
+            <Button Content="CREAR CUENTA" 
+                Margin="0,30,0,10" Padding="10" 
+                Click="CrearCuenta_Click"
+                Background="#FF3F51B5" Foreground="White" 
+                FontWeight="Bold"/>
+            <Button Content="VOLVER AL INICIO DE SESION" 
+                Padding="10" 
+                Click="VolverInicio_Click"
+                Background="#FF3F51B5" Foreground="White" 
+                FontWeight="Bold"/>
+
+        </StackPanel>
+    </ScrollViewer>
+</Window>

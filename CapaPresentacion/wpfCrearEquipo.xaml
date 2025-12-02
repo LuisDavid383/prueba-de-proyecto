@@ -1,0 +1,70 @@
+﻿<Window x:Class="CapaPresentacion.wpfCrearEquipo"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CapaPresentacion"
+        mc:Ignorable="d"
+        Title="wpfCrearEquipo" Height="450" Width="800">
+    <Grid Margin="25">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="DATOS BÁSICOS DEL EQUIPO" 
+               FontSize="20" FontWeight="Bold" 
+               HorizontalAlignment="Center" Margin="0,0,0,25"
+               Foreground="#FF1E88E5"/>
+
+        <Grid Grid.Row="1" Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Nombre del Equipo: *" 
+                   VerticalAlignment="Center" Margin="0,10"/>
+            <TextBox x:Name="txtNombreEquipo" Grid.Row="0" Grid.Column="1" 
+                 Margin="10,5" Padding="5"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Deporte: *" 
+                   VerticalAlignment="Center" Margin="0,10"/>
+            <ComboBox x:Name="cmbDeporte" Grid.Row="1" Grid.Column="1" 
+                  Margin="10,5" Padding="5" />
+
+        </Grid>
+
+        <StackPanel Grid.Row="3" Margin="0,10,0,20">
+            <TextBlock Text="Descripción (Opcional):" Margin="0,0,0,5"/>
+            <TextBox x:Name="txtDescripcion" 
+                 Height="100" 
+                 TextWrapping="Wrap" 
+                 AcceptsReturn="True" 
+                 VerticalScrollBarVisibility="Auto" 
+                 Padding="5"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="💾 Guardar y Continuar" 
+                x:Name="btnGuardar"
+                Click="BtnGuardar_Click"
+                Margin="0,0,15,0" Padding="15,8" 
+                Background="#FF4CAF50" Foreground="White" FontWeight="Bold"/>
+
+            <Button Content="❌ Cancelar" 
+                x:Name="btnCancelar"
+                Click="BtnCancelar_Click"
+                Padding="15,8" 
+                Background="#FFCCCCCC" Foreground="Black"/>
+        </StackPanel>
+    </Grid>
+</Window>
